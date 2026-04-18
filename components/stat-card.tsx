@@ -1,7 +1,7 @@
 import * as React from "react"
 import { LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Card } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 
 interface StatCardProps {
   label: string
@@ -25,25 +25,27 @@ export function StatCard({
   className 
 }: StatCardProps) {
   return (
-    <Card className={cn("relative group transition-all duration-300", className)}>
-      <div className="flex items-start justify-between">
-        <div className="space-y-1">
-          <p className="text-[11px] font-heading font-normal uppercase tracking-[1.5px] text-muted-foreground/70">
-            {label}
-          </p>
-          <div className="flex items-baseline gap-1">
-            <h3 className="text-3xl font-heading font-light tracking-tight text-foreground">
-              {value}
-            </h3>
-            {subValue && (
-              <span className="text-sm font-heading font-light text-muted-foreground/60 align-top">
-                {subValue}
-              </span>
-            )}
+    <Card className={cn("relative group transition-all duration-300 h-full", className)}>
+      <CardContent className="flex items-start justify-between min-w-0 h-full py-0">
+        <div className="flex flex-col justify-between h-full py-6 min-w-0">
+          <div className="space-y-1 min-w-0">
+            <p className="text-[11px] font-heading font-semibold uppercase tracking-[1.5px] text-muted-foreground/70 truncate">
+              {label}
+            </p>
+            <div className="flex items-baseline gap-1 overflow-hidden">
+              <h3 className="text-3xl font-heading font-light tracking-tight text-foreground truncate">
+                {value}
+              </h3>
+              {subValue && (
+                <span className="text-sm font-heading font-light text-muted-foreground/60 shrink-0">
+                  {subValue}
+                </span>
+              )}
+            </div>
           </div>
           {delta && (
             <p className={cn(
-              "text-[11px] font-medium tracking-tight",
+              "text-[11px] font-medium tracking-tight line-clamp-1 mt-3",
               deltaType === "up" && "text-emerald-600",
               deltaType === "down" && "text-rose-600",
               deltaType === "neutral" && "text-muted-foreground"
@@ -54,14 +56,16 @@ export function StatCard({
             </p>
           )}
         </div>
-        <div className={cn(
-          "size-11 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 duration-500",
-          iconClassName || "bg-secondary"
-        )}>
-          <Icon className="size-5.5" />
+        <div className="py-6 shrink-0 ml-4">
+          <div className={cn(
+            "size-11 rounded-2xl flex items-center justify-center transition-all group-hover:scale-110 group-hover:shadow-soft-elevation duration-500",
+            iconClassName || "bg-secondary"
+          )}>
+            <Icon className="size-5.5" />
+          </div>
         </div>
-      </div>
-      
+      </CardContent>
+
       {/* Subtle bottom accent line */}
       <div className={cn(
         "absolute bottom-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500",
@@ -70,3 +74,4 @@ export function StatCard({
     </Card>
   )
 }
+
